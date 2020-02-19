@@ -1,0 +1,14 @@
+.hamburger {
+  cursor: pointer;
+}
+
+.hamburger__line {
+  display: block;
+  height: 3px;
+  width: 30px;
+  background-color: white;
+}
+
+.hamburger__line:nth-child(2) {
+  margin: 5px 0;
+}

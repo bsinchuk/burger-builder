@@ -1,0 +1,46 @@
+.nav-item {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 10px 0;
+  display: block;
+}
+
+.nav-link {
+  box-sizing: border-box;
+  width: 100%;
+  display: block;
+  color: white;
+  text-decoration: none;
+  color: #8F5C2C;
+}
+
+.nav-link:hover,
+.nav-link:active,
+.nav-link--active {
+  color: #40A4CB;
+}
+
+@media screen and (min-width: 500px) {
+  .nav-item {
+    height: 100%;
+    width: auto;
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-link {
+    height: 1 00%;
+    padding: 16px 10px;
+    border-bottom: 4px solid transparent;
+    color: white;
+  }
+  
+  .nav-link:hover,
+  .nav-link:active,
+  .nav-link--active {
+    background-color: #8F5C2C;
+    border-bottom: 4px solid #40A4CB;
+    color: white;
+  }
+}
