@@ -4,9 +4,9 @@ import Backdrop from '../Backdrop/Backdrop';
 import styles from './Modal.css';
 
 class Modal extends Component {
-  shouldComponentUpdate(prevProps, prevState) {
-    return prevProps.showed !== this.props.showed;
-  }
+  // shouldComponentUpdate(prevProps, prevState) {
+  //   return prevProps.showed !== this.props.showed;
+  // }
   render() {
     return (
       <React.Fragment>
