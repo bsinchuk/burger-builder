@@ -7,6 +7,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import qs from 'query-string';
 
 const PRICES = {
   salad: 0.5,
@@ -80,28 +81,11 @@ class BurgerBuilder extends Component {
   }
 
   makePurchaseHandler = () => {
-    this.setState({loading: true});
-    const order = {
-      price: this.state.totalPrice,
-      ingredients: this.state.ingredients,
-      deliveryMethod: 'fastest',
-      customer: {
-        address: {
-          country: 'Austria',
-          street: 'SomeStrasse, 1',
-          zip: '21312321'
-        },
-        email: 'test@test.com',
-        name: 'Bogdan'
-      }
-    }
-    axios.post('orders.json', order)
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
-      .then(() => {
-        this.setState({loading: false, purchasing: false});
-      })
-    console.log('post');
+    const searchString = qs.stringify({...this.state.ingredients, price: this.state.totalPrice});
+    this.props.history.push({
+      pathname: '/checkout',
+      search: searchString
+    });
   }
 
   render() {

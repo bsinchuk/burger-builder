@@ -6,7 +6,7 @@ import styles from './Burger.css';
 const burger = (props) => {
   let transformedIngredients = Object.keys(props.ingredients)
     .map(name => {
-      return [...Array(props.ingredients[name])]
+      return [...Array(+props.ingredients[name])]
         .map((_, index) => {
           return <BurgerIngredient key={name + index} type={name} />;
         });
