@@ -6,6 +6,8 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import styles from './ContactData.css';
 import axios from '../../../axios-orders';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+import * as actions from '../../../store/actions/index';
 
 const errorMessages = {
   required: 'Enter something meaningful!',
@@ -146,13 +148,8 @@ export class ContactData extends Component {
       ingredients: this.props.ingrs,
       orderData: formData
     }
-    axios.post('orders.json', order)
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
-      .finally(() => {
-        this.setState({loading: false});
-        this.props.history.push('/');
-      })
+
+    this.props.orderBurger(order);
   };
 
   inputChangedHandler = (event, id) => {
@@ -207,7 +204,7 @@ export class ContactData extends Component {
         <Button disabled={!this.state.formIsValid} type="success">ORDER</Button>
       </form>  
     );
-    if (this.state.loading) {
+    if (this.props.loading) {
       form = <Spinner />;
     }
     return (
@@ -221,9 +218,16 @@ export class ContactData extends Component {
 
 const mapStateToProps = state => {
   return {
-    ingrs: state.ingredients,
-    price: state.totalPrice
+    ingrs: state.burger.ingredients,
+    price: state.burger.totalPrice,
+    loading: state.order.loading
   }
 }
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+  return {
+    orderBurger: data => dispatch(actions.burgerOrderInit(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));
