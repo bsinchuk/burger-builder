@@ -13,7 +13,7 @@ const toolbar = (props) => {
         <Logo />
       </div>
       <nav className={[styles['toolbar__nav'], styles['toolbar__nav--hidden']].join(' ')}>
-        <NavigationItems />
+        <NavigationItems isAuthenticated={props.isAuth} />
       </nav>
     </header>
   )

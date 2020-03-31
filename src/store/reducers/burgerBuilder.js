@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/actionTypes';
 const defaultState = {
   ingredients: null,
   totalPrice: 5,
-  error: false
+  error: false,
+  building: false
 }
 
 const PRICES = {
@@ -20,7 +21,8 @@ const addIngredient = (prevState, action) => {
       ...prevState.ingredients,
       [action.ingredientType]: prevState.ingredients[action.ingredientType] + 1
     },
-    totalPrice: prevState.totalPrice + PRICES[action.ingredientType]
+    totalPrice: prevState.totalPrice + PRICES[action.ingredientType],
+    building: true
   }      
 }
 
@@ -31,7 +33,8 @@ const removeIngredient = (prevState, action) => {
       ...prevState.ingredients,
       [action.ingredientType]: prevState.ingredients[action.ingredientType] - 1
     },
-    totalPrice: prevState.totalPrice - PRICES[action.ingredientType]
+    totalPrice: prevState.totalPrice - PRICES[action.ingredientType],
+    building: true
   }
 }
 
@@ -45,7 +48,8 @@ const setIngredients = (prevState, action) => {
       meat: action.data.meat
     },
     totalPrice: defaultState.totalPrice,
-    error: false
+    error: false,
+    building: false
   }
 }
 
