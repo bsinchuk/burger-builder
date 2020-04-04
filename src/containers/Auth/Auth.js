@@ -6,6 +6,7 @@ import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import * as actions from '../../store/actions/index';
+import { validate } from '../../shared/utility';
 import styles from './Auth.css';
 
 class Auth extends Component {
@@ -44,46 +45,12 @@ class Auth extends Component {
     isSignIn: false
   }
 
-  errorMessages = {
-    required: 'Enter something meaningful!',
-    minLength: 'Min length is: ',
-    maxLength: 'Max length is: '
-  }
-
   componentDidMount() {
     if (!this.props.building) {
       this.props.setRedirectPath();
     }
   }
   
-  validate(value, rules) {
-    let isValid = true;
-    let message = '';
-    value = value.trim();
-
-    if (rules.required) {
-      if (value === '') {
-        isValid = false;
-        message = this.errorMessages.required;
-      }
-    }
-
-    if (rules.minLength) {
-      if (value.length < rules.minLength) {
-        isValid = false;
-        message = this.errorMessages.minLength + rules.minLength;
-      }
-    }
-
-    if (rules.maxLength) {
-      if (value.length > rules.maxLength) {
-        isValid = false;
-        message = this.errorMessages.maxLength + rules.maxLength;
-      }
-    }
-    return [isValid, message];
-  }
-
   inputChangedHandler = (event, id) => {
     const form = {
       ...this.state.controls
@@ -93,7 +60,7 @@ class Auth extends Component {
     };
     element.modified = true;
     element.value = event.target.value;
-    const [valid, message] = this.validate(element.value, element.validation);
+    const [valid, message] = validate(element.value, element.validation);
     element.valid = valid;
     element.errorMessage = message;
     form[id] = element;

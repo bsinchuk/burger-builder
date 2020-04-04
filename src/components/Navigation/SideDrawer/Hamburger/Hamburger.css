@@ -2,6 +2,12 @@
   cursor: pointer;
 }
 
+@media (min-width: 500px) {
+  .hamburger {
+    display: none;
+  }
+}
+
 .hamburger__line {
   display: block;
   height: 3px;

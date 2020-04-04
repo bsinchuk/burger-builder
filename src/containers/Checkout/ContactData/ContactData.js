@@ -8,12 +8,7 @@ import styles from './ContactData.css';
 import axios from '../../../axios-orders';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index';
-
-const errorMessages = {
-  required: 'Enter something meaningful!',
-  minLength: 'Min length is: ',
-  maxLength: 'Max length is: '
-}
+import { validate } from '../../../shared/utility';
 
 export class ContactData extends Component {
   state = {
@@ -107,34 +102,6 @@ export class ContactData extends Component {
     loading: false
   }
 
-  validate(value, rules) {
-    let isValid = true;
-    let message = '';
-    value = value.trim();
-
-    if (rules.required) {
-      if (value === '') {
-        isValid = false;
-        message = errorMessages.required;
-      }
-    }
-
-    if (rules.minLength) {
-      if (value.length < rules.minLength) {
-        isValid = false;
-        message = errorMessages.minLength + rules.minLength;
-      }
-    }
-
-    if (rules.maxLength) {
-      if (value.length > rules.maxLength) {
-        isValid = false;
-        message = errorMessages.maxLength + rules.maxLength;
-      }
-    }
-    return [isValid, message];
-  }
-
   orderHandler = (e) => {
     e.preventDefault();
     this.setState({loading: true});
@@ -158,11 +125,12 @@ export class ContactData extends Component {
       ...this.state.orderForm
     };
     const element = {
-      ...form[id]
+      ...form[id],
+      modified: true,
+      value: event.target.value
     };
-    element.modified = true;
-    element.value = event.target.value;
-    const [valid, message] = this.validate(element.value, element.validation);
+
+    const [valid, message] = validate(element.value, element.validation);
     element.valid = valid;
     element.errorMessage = message;
     form[id] = element;

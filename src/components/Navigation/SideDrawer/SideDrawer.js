@@ -16,8 +16,8 @@ const sideDrawer = (props) => {
   return (
     <Aux>
       <Backdrop showed={props.menu} closed={props.closed} />
-      <div className={drawerClasses.join(' ')}>
-        <div className={styles['side-drawer__logo']}>
+      <div className={drawerClasses.join(' ')} onClick={props.closed} >
+        <div className={styles['side-drawer__logo']} >
           <Logo />
         </div>
         <nav>

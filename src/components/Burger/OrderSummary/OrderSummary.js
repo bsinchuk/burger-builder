@@ -4,7 +4,6 @@ import Aux from '../../../hoc/Aux/Aux';
 
 const orderSummary = (props) => {
   useEffect(() => {
-    console.log('[orderSummary] update');
   });
   const orderItems = Object.entries(props.ingredients).map(
     (entry) => {

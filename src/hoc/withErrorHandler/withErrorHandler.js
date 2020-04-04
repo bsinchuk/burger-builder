@@ -7,7 +7,9 @@ const withErrorHandler = (WrappedComponent, axios) => {
     state = {
       error: null
     }
-    componentWillMount() {
+
+    // was componentWillMount, changed cause of warning
+    componentDidMount() {
       this.reqInt = axios.interceptors.request.use(res => {
         this.setState({error: null});
         return res;
