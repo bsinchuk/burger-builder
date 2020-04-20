@@ -1,5 +1,4 @@
 import * as actionTypes from './actionTypes';
-import axios from '../../axios-orders';
 
 export const burgerOrderSuccess = (id, data) => {
   return {
@@ -23,11 +22,10 @@ export const burgerOrderLoad = () => {
 }
 
 export const burgerOrderInit = (data, token) => {
-  return dispatch => {
-    dispatch(burgerOrderLoad());
-    axios.post('orders.json?auth=' + token, data)
-      .then(res => dispatch(burgerOrderSuccess(res.data.name, data)))
-      .catch(err => dispatch(burgerOrderFail(err)))
+  return {
+    type: actionTypes.BURGER_ORDER_INIT,
+    data: data,
+    token: token
   }
 }
 
@@ -58,19 +56,9 @@ export const fetchOrdersFail = (error) => {
 }
 
 export const fetchOrdersInit = (token, id) => {
-  return dispatch => {
-    dispatch(fetchOrdersLoad());
-    const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + id + '"';
-    axios.get('orders.json' + queryParams)
-      .then(res => {
-        const fetched = [];
-        for (const key in res.data) {
-          fetched.push({
-            ...res.data[key],
-            id: key })
-        }
-        dispatch(fetchOrdersSuccess(fetched));
-      })
-      .catch(err => dispatch(fetchOrdersFail(err)));
+  return {
+    type: actionTypes.FETCH_ORDERS_INIT,
+    token: token,
+    id: id
   }
 }
