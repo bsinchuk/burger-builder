@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux';
 
 import Button from '../../../components/UI/Button/Button';
@@ -10,8 +10,8 @@ import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index';
 import { validate } from '../../../shared/utility';
 
-export class ContactData extends Component {
-  state = {
+const ContactData = props => {
+  const [state, setState] = useState({
     orderForm: {
       name: {
         elementType: 'input',
@@ -100,29 +100,29 @@ export class ContactData extends Component {
     },
     formIsValid: false,
     loading: false
-  }
+  });
 
-  orderHandler = (e) => {
+  const orderHandler = (e) => {
     e.preventDefault();
-    this.setState({loading: true});
+    setState({...state, loading: true});
 
     const formData = {};
-    for (const key in this.state.orderForm) {
-      formData[key] = this.state.orderForm[key].value;
+    for (const key in state.orderForm) {
+      formData[key] = state.orderForm[key].value;
     }
     const order = {
-      price: +this.props.price.toFixed(2),
-      ingredients: this.props.ingrs,
+      price: +props.price.toFixed(2),
+      ingredients: props.ingrs,
       orderData: formData,
-      userId: this.props.id
+      userId: props.id
     }
 
-    this.props.orderBurger(order, this.props.token);
+    props.orderBurger(order, props.token);
   };
 
-  inputChangedHandler = (event, id) => {
+  const inputChangedHandler = (event, id) => {
     const form = {
-      ...this.state.orderForm
+      ...state.orderForm
     };
     const element = {
       ...form[id],
@@ -142,22 +142,21 @@ export class ContactData extends Component {
         break;
       }
     }
-    this.setState({orderForm: form, formIsValid: isFormValid});
+    setState({...state, orderForm: form, formIsValid: isFormValid});
   }
 
-  render() {
-    const formArray = [];
-    for (const key in this.state.orderForm) {
+  const formArray = [];
+    for (const key in state.orderForm) {
       formArray.push({
         id: key,
-        config: this.state.orderForm[key]
+        config: state.orderForm[key]
       })
     }
 
     let form = (
       <form 
         className={styles['contacts__form']}
-        onSubmit={this.orderHandler}>
+        onSubmit={orderHandler}>
         {formArray.map(e => (
           <Input 
             key={e.id}
@@ -168,22 +167,23 @@ export class ContactData extends Component {
             touched={e.config.modified}
             errorMessage={e.config.errorMessage}
             value={e.config.value}
-            changed={(event) => this.inputChangedHandler(event, e.id)} />
+            changed={(event) => inputChangedHandler(event, e.id)} />
         ))}
-        <Button disabled={!this.state.formIsValid} type="success">ORDER</Button>
+        <Button disabled={!state.formIsValid} type="success">ORDER</Button>
       </form>  
     );
-    if (this.props.loading) {
+    if (props.loading) {
       form = <Spinner />;
     }
+
     return (
       <div className={styles.contacts}>
         <h4>Enter Your Contact Data:</h4>   
         {form} 
       </div>
     )
-  }
 }
+
 
 const mapStateToProps = state => {
   return {
